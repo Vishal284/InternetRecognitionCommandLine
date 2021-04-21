@@ -8,11 +8,8 @@ using namespace std;
 int main()
 {	
 	IntentRecognition intentReco;
-	intentReco.getIntentInput();
-	intentReco.publishIntent();
-
-	cout << "Press any key to exit" << endl;
-	cin.get();
+	intentReco.printIntroduction();
+	intentReco.getIntentInputandProcess();
 
 	return 0;
 }
@@ -21,14 +18,34 @@ int main()
 IntentRecognition::IntentRecognition() : intentOutput ("Intent: ")
 {}
 
-void IntentRecognition::getIntentInput()
+// Print the introduction regarding this tool
+void IntentRecognition::printIntroduction()
 {
+	cout << "Hello. I am Intent Recognition tool. You can ask me anything to check the intent" << endl;
+	cout << "e.g. " << endl << "how is the weather" << endl << "navigate to stuttgart" << endl << "dial my wife" << endl;
+	cout << "*******************************" << endl;
+}
 
-	cout << "Hello. How may I help you --> ";
-	std::getline(std::cin, intentInputStr);
-	
-	// Call the function which will identify the intent
-	identifyIntent();	
+// Get the input from the user
+void IntentRecognition::getIntentInputandProcess()
+{
+	string decision;
+	do
+	{
+		intentInputStr.clear();
+		decision.clear();
+		cout << "So how can I help you today? -->  ";
+		std::getline(std::cin, intentInputStr);
+
+		// Call the function which will identify the intent
+		identifyIntent();
+		publishIntent();
+
+		cout << "Type yes, if you want to ask anything else" << endl;
+		std::getline(std::cin, decision);
+
+	} while (decision.compare("yes") == 0);
+
 }
 
 // Function to identify the intent of the input
@@ -60,13 +77,17 @@ void IntentRecognition::identifyIntent()
 void IntentRecognition::publishIntent()
 {
 	cout << intentOutput << endl;
+
+	// Clear the output string and append the default
+	intentOutput.clear();
+	intentOutput.append("Intent: ");
 }
 
 // Check the question format is What or How
 bool IntentRecognition::isWhatOrHowFormat()
 {
-	std::size_t foundWhat = intentInputStr.find("What");
-	std::size_t foundHow = intentInputStr.find("How");
+	std::size_t foundWhat = intentInputStr.find("what");
+	std::size_t foundHow = intentInputStr.find("how");
 	if (foundWhat != std::string::npos || foundHow != std::string::npos)
 	{
 		return true;

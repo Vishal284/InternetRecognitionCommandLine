@@ -22,7 +22,8 @@ public:
 	// Constructor
 	IntentRecognition();
 
-	void getIntentInput();
+	void printIntroduction();
+	void getIntentInputandProcess();
 	void identifyIntent();
 	void publishIntent();
 
