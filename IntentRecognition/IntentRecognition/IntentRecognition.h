@@ -29,9 +29,14 @@ public:
 
 private:
 
-	bool isWhatOrHowFormat();
+	bool isQuestionFormat();
 	bool isWeatherIntent();
 	bool isWeatherWithCityIntent();
 	bool isFactIntent();	
+
+	inline std::size_t findStringInInput(const std::string& searchStr)
+	{
+		return intentInputStr.find(searchStr);
+	};
 
 };

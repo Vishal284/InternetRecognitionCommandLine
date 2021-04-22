@@ -100,7 +100,7 @@ bool IntentRecognition::isQuestionFormat()
 	// Navigate through the question keywords
 	for (auto keyword : keywords)
 	{
-		if (intentInputStr.find(keyword) != std::string::npos)
+		if (findStringInInput(keyword) != std::string::npos)
 		{
 			// If question keyword is found, set the variable to true and beak out of the loop
 			keywordFound = true;
@@ -114,12 +114,10 @@ bool IntentRecognition::isQuestionFormat()
 // Check if the intent is only regarding Weather
 bool IntentRecognition::isWeatherIntent()
 {
-	// It will work only if input is weather or Weather. WEATHER also will not work.
+	// It will work only if input is weather. Weather, WEATHER also will not work.
 	// I have not used C++ Boost library. Else, the input string can be converted to lower case 
-	// And then we just need to check for "weather"
-	std::size_t foundL = intentInputStr.find("weather");
-	std::size_t foundC = intentInputStr.find("Weather");
-	if (foundL != std::string::npos || foundC != std::string::npos)
+	// And then we just need to check for "weather"	
+	if (findStringInInput("weather") != std::string::npos)
 	{
 		intentOutput.append("Get Weather");
 		return true;
@@ -134,11 +132,10 @@ bool IntentRecognition::isWeatherWithCityIntent()
 {
 	// Generally "in" will be used before city name
 	// e.g. How is the weather in Paris
-	// What is the weather in Paris
-	std::size_t found = intentInputStr.find("in");
+	// What is the weather in Paris	
 
 	// If in is found in the string, append the City intent also
-	if (found != std::string::npos)
+	if (findStringInInput("in") != std::string::npos)
 	{
 		intentOutput.append(" City");
 		return true;
@@ -150,9 +147,7 @@ bool IntentRecognition::isWeatherWithCityIntent()
 bool IntentRecognition::isFactIntent()
 {
 	// Check if the user has asked for a fact
-	std::size_t found = intentInputStr.find("fact");
-
-	if (found != std::string::npos)
+	if (findStringInInput("fact") != std::string::npos)
 	{
 		intentOutput.append("Get fact");
 		return true;
