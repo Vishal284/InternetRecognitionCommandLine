@@ -52,10 +52,15 @@ void IntentRecognition::getIntentInputandProcess()
 // Function to identify the intent of the input
 void IntentRecognition::identifyIntent()
 {
-	// Check if the input is having What or How
-	if (isQuestionFormat())
+	// Intent input should be atleast 10 characters
+	if (intentInputStr.length() <= 10)
 	{
-		cout << "NOTE: Inside the question loop";
+		intentOutput.clear();
+		intentOutput.append("INFO: Please elaborate your request, if you wish to continue");		
+	}
+	// Check if the input is having keywords like what, how, tell
+	else if (isQuestionFormat())
+	{		
 		// Check if the intent is Weather
 		if (isWeatherIntent())
 		{
