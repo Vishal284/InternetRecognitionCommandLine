@@ -1,12 +1,12 @@
-﻿// IntentRecognition.cpp : Defines the entry point for the application.
+﻿// IntentRecognition.cpp : Defines the entry point of application and Intent recognition class
 //
 
 #include "IntentRecognition.h"
-
+#include <vector>
 using namespace std;
 
 int main()
-{	
+{
 	IntentRecognition intentReco;
 	intentReco.printIntroduction();
 	intentReco.getIntentInputandProcess();
@@ -22,7 +22,8 @@ IntentRecognition::IntentRecognition() : intentOutput ("Intent: ")
 void IntentRecognition::printIntroduction()
 {
 	cout << "Hello. I am Intent Recognition tool. You can ask me anything to check the intent" << endl;
-	cout << "e.g. " << endl << "how is the weather" << endl << "navigate to stuttgart" << endl << "dial my wife" << endl;
+	cout << "e.g. " << endl << "how is the weather" << endl << "please tell me the weather in paris" << endl << "tell me a fact" << endl;
+	cout << "Please give input in lower case" << endl;
 	cout << "*******************************" << endl;
 }
 
@@ -52,19 +53,21 @@ void IntentRecognition::getIntentInputandProcess()
 void IntentRecognition::identifyIntent()
 {
 	// Check if the input is having What or How
-	if (isWhatOrHowFormat())
+	if (isQuestionFormat())
 	{
+		cout << "NOTE: Inside the question loop";
 		// Check if the intent is Weather
 		if (isWeatherIntent())
 		{
 			// Only for Weather intent, we should check the possibility of a city
 			isWeatherWithCityIntent();
-		}		
-	}
-	// Check if the intent is Fact
-	else if (isFactIntent())
-	{
-		return;
+		}
+		// Check for Fact intent
+		else
+		{
+			// Check if its a Fact intent
+			isFactIntent();
+		}
 	}
 	// Else, the intent is not supported 
 	else
@@ -83,17 +86,23 @@ void IntentRecognition::publishIntent()
 	intentOutput.append("Intent: ");
 }
 
-// Check the question format is What or How
-bool IntentRecognition::isWhatOrHowFormat()
+// Check the question format is what or how or tell
+bool IntentRecognition::isQuestionFormat()
 {
-	std::size_t foundWhat = intentInputStr.find("what");
-	std::size_t foundHow = intentInputStr.find("how");
-	if (foundWhat != std::string::npos || foundHow != std::string::npos)
-	{
-		return true;
-	}
+	std::size_t keywordFound = false;
+	std::vector<std::string> keywords = { "what", "how", "tell" };
 
-	return false;
+	// Navigate through the question keywords
+	for (auto keyword : keywords)
+	{
+		if (intentInputStr.find(keyword) != std::string::npos)
+		{
+			// If question keyword is found, set the variable to true and beak out of the loop
+			keywordFound = true;
+			break;
+		}
+	}
+	return keywordFound;
 
 }
 
