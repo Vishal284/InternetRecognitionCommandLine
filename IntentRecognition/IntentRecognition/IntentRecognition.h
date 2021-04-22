@@ -8,8 +8,6 @@
 // TODO: Reference additional headers your program requires here.
 #include <string>
 
-#define MAX_INPUT_SIZE 100
-
 class IntentRecognition
 {
 private:
@@ -39,4 +37,9 @@ private:
 		return intentInputStr.find(searchStr);
 	};
 
+public:
+
+	// Functions introduced to support unit test	
+	void setIntentInput(std::string& intentStr);
+	void getIntentOutput(std::string& intentStr);	
 };

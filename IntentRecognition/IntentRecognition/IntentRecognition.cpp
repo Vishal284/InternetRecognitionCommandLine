@@ -5,14 +5,6 @@
 #include <vector>
 using namespace std;
 
-int main()
-{
-	IntentRecognition intentReco;
-	intentReco.printIntroduction();
-	intentReco.getIntentInputandProcess();
-
-	return 0;
-}
 
 // Constructor
 IntentRecognition::IntentRecognition() : intentOutput ("Intent: ")
@@ -30,7 +22,7 @@ void IntentRecognition::printIntroduction()
 // Get the input from the user
 void IntentRecognition::getIntentInputandProcess()
 {
-	string decision;
+	std::string decision;
 	do
 	{
 		intentInputStr.clear();
@@ -77,7 +69,7 @@ void IntentRecognition::identifyIntent()
 	// Else, the intent is not supported 
 	else
 	{
-		intentOutput.append(" Sorry, its not supported");
+		intentOutput.append("Sorry, its not supported");
 	}
 }
 
@@ -153,6 +145,20 @@ bool IntentRecognition::isFactIntent()
 		return true;
 	}
 	return false;
+}
+
+// Set the intent via function parameter instead of taking from command line
+void IntentRecognition::setIntentInput(std::string& intentStr)
+{
+	intentInputStr.clear();
+	intentInputStr.append(intentStr);
+}
+
+// Get the intent output string
+void IntentRecognition::getIntentOutput(std::string& intentStr)
+{
+	intentStr.clear();
+	intentStr.append(intentOutput);
 }
 
 // End of the file
