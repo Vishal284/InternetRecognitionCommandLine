@@ -17,6 +17,6 @@ For the test cases, Catch2 package also should be installed.
 Catch2 can be cloned from:
 git clone https://github.com/Microsoft/vcpkg.git
 and can be installed using below commands
-bootstrap-vcpkg.bat
-vcpkg integrate install
-vpkg install catch2:x64-windows
+1. bootstrap-vcpkg.bat
+2. vcpkg integrate install
+3. vpkg install catch2:x64-windows
