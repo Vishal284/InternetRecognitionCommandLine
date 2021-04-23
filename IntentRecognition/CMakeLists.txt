@@ -7,3 +7,4 @@ project ("IntentRecognition")
 
 # Include sub-projects.
 add_subdirectory ("IntentRecognition")
+add_subdirectory ("tests")
