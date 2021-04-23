@@ -20,3 +20,8 @@ and can be installed using below commands
 1. bootstrap-vcpkg.bat
 2. vcpkg integrate install
 3. vpkg install catch2:x64-windows
+
+While compiling the tests folder, make sure to set CMAKE_PREFIX_PATH.
+e.g. cmake -DCMAKE_PREFIXPATH=~share\catch2\ -S tests -B testbuild
+
+It will help the cmake to file the Catch2 package
