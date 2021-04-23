@@ -13,9 +13,9 @@ IntentRecognition::IntentRecognition() : intentOutput ("Intent: ")
 // Print the introduction regarding this tool
 void IntentRecognition::printIntroduction()
 {
-	cout << "Hello. I am Intent Recognition tool. You can ask me anything to check the intent" << endl;
+	cout << "Hello. I am an Intent Recognition tool. You can ask me anything to check the intent." << endl;
 	cout << "e.g. " << endl << "how is the weather" << endl << "please tell me the weather in paris" << endl << "tell me a fact" << endl;
-	cout << "Please give input in lower case" << endl;
+	cout << "NOTE: Please give input in lower case" << endl;
 	cout << "*******************************" << endl;
 }
 
@@ -51,13 +51,22 @@ void IntentRecognition::identifyIntent()
 		intentOutput.append("INFO: Please elaborate your request, if you wish to continue");		
 	}
 	// Check if the input is having keywords like what, how, tell
-	else if (isQuestionFormat())
+	else if (isQuestionFormat())  
 	{		
 		// Check if the intent is Weather
 		if (isWeatherIntent())
 		{
 			// Only for Weather intent, we should check the possibility of a city
 			isWeatherWithCityIntent();
+
+			// Check if the time is also specified for weather request
+			if (isDayOrWeekSpecified())
+			{
+				// For requesting weather, we can also use the day parameter.
+				// However, there is no change in intent. It will still stay "Get Weather"
+				// as specified in the task
+				//cout << "DAY IS FOUND" << endl;
+			}
 		}
 		// Check for Fact intent
 		else
@@ -94,7 +103,7 @@ bool IntentRecognition::isQuestionFormat()
 	{
 		if (findStringInInput(keyword) != std::string::npos)
 		{
-			// If question keyword is found, set the variable to true and beak out of the loop
+			// If question keyword is found, set the variable to true and break out of the loop
 			keywordFound = true;
 			break;
 		}
@@ -147,8 +156,29 @@ bool IntentRecognition::isFactIntent()
 	return false;
 }
 
+// Check if the user has also requested for weather for a particular
+// Day like today or tomorrow or week. 
+// Generally weather is not requested for past, so yesterday is not included
+bool IntentRecognition::isDayOrWeekSpecified()
+{
+	std::size_t keywordFound = false;
+	std::vector<std::string> dayKeywords = { "today", "tomorrow", "week" };
+
+	// Navigate through the question keywords
+	for (auto keyword : dayKeywords)
+	{
+		if (findStringInInput(keyword) != std::string::npos)
+		{
+			// If day keyword is found, break out of the loop
+			keywordFound = true;			
+			break;
+		}
+	}
+	return keywordFound;
+}
+
 // Set the intent via function parameter instead of taking from command line
-void IntentRecognition::setIntentInput(std::string& intentStr)
+void IntentRecognition::setIntentInput(const std::string& intentStr)
 {
 	intentInputStr.clear();
 	intentInputStr.append(intentStr);

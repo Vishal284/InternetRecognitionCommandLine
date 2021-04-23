@@ -30,7 +30,8 @@ private:
 	bool isQuestionFormat();
 	bool isWeatherIntent();
 	bool isWeatherWithCityIntent();
-	bool isFactIntent();	
+	bool isFactIntent();
+	bool isDayOrWeekSpecified();
 
 	inline std::size_t findStringInInput(const std::string& searchStr)
 	{
@@ -40,6 +41,6 @@ private:
 public:
 
 	// Functions introduced to support unit test	
-	void setIntentInput(std::string& intentStr);
+	void setIntentInput(const std::string& intentStr);
 	void getIntentOutput(std::string& intentStr);	
 };
